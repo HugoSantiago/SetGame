@@ -9,17 +9,23 @@
 import SwiftUI
 
 struct ContentView: View {
-    var table: setGameVM = setGameVM()
+    @ObservedObject var table: setGameVM = setGameVM()
     var body: some View {
         VStack {
-            Grid(table.cards.take12()) { card in
-                CardView(color: card.color, figure: card.shape, number: card.number, shading: card.shading)
+            Button(action: {
+                print(String(self.table.cards.takeNElements(n: 12).count))
+            }) {
+                Text("New Game")
+            }
+            Grid(table.cards.takeNElements(n: 12)) { card in
+                CardView(color: card.color, figure: card.shape, number: card.number, shading: card.shading, isUp: false)
                     .onTapGesture {
                         self.table.selectCard(card: card)
                 }
             }
-            
         }
+        .padding()
+        
     }
 }
 
@@ -28,13 +34,19 @@ struct CardView : View {
     var figure: String
     var number:Int
     var shading:Double
+    var isUp:Bool
     
     var body: some View {
         ZStack {
             RoundedRectangle( cornerRadius: 10, style: .continuous)
-                .stroke(Color.black)
-                .shadow(radius: 10)
+                .stroke(Color.gray)
                 .padding(5)
+            if isUp {
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundColor(Color.yellow)
+                    .padding(5)
+            }
+            
             VStack {
                 ForEach (1..<number+1) {_ in
                     if self.figure == "Circle" {
@@ -42,11 +54,11 @@ struct CardView : View {
                             Circle()
                                 .fill(self.color)
                                 .opacity(self.shading)
-                                .padding(4)
+                                .frame(width: 35, height: 35)
                         } else {
                             Circle()
                                 .stroke(self.color)
-                                .padding(4)
+                                .frame(width: 35, height: 35)
                         }
                     }
                     if self.figure == "Capsule" {
@@ -54,11 +66,13 @@ struct CardView : View {
                             Capsule()
                                 .fill(self.color)
                                 .opacity(self.shading)
-                                .padding(4)
+                                .frame(width: 35, height: 50)
+                                .rotationEffect(Angle.degrees(90))
                         } else {
                             Capsule()
                                 .stroke(self.color)
-                                .padding(4)
+                                .frame(width: 35, height: 50)
+                                .rotationEffect(Angle.degrees(90))
                         }
                     }
                     if self.figure == "Rectangle" {
@@ -66,16 +80,16 @@ struct CardView : View {
                             Rectangle()
                                 .fill(self.color)
                                 .opacity(self.shading)
-                                .padding(4)
+                                .frame(width: 35, height: 35)
                         } else {
                             Rectangle()
                                 .stroke(self.color, lineWidth: 2)
-                                .padding(4)
+                                .frame(width: 35, height: 35)
                         }
                     }
                 }
-                .frame(width: 35, height: 35)
             }
+            .padding(4)
         }
     }
 }

@@ -20,6 +20,18 @@ extension Array where Element:Identifiable {
     }
 }
 
+extension Array where Element:Identifiable {
+    func serchByElement (gimme: Element) -> Element? {
+        for index in 0..<count{
+            if self[index].id == gimme.id {
+                return self[index]
+            }
+        }
+        return nil
+    }
+}
+
+
 extension Array {
     var only : Element? {
         count == 1 ? first : nil
@@ -36,11 +48,11 @@ extension Array {
 
 
 extension Array where Element:Identifiable{
-    func take12() ->[Element] {
+    func takeNElements(n: Int) ->[Element] {
         var rst :[Element] = []
-        for _ in 0...12 {
-            let randomInt = Int.random(in: 0..<count)
-            rst.append(self[randomInt])
+        let arr = (0..<n).map( {_ in Int.random(in: 0..<count)} )
+        for value in 0..<arr.count {
+            rst.append(self[value])
         }
         return rst
     }

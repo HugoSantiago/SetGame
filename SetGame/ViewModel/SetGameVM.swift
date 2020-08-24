@@ -9,8 +9,9 @@
 import Foundation
 import  SwiftUI
 
-struct setGameVM {
-    private var board : BoardSet = BoardSet()
+class setGameVM: ObservableObject {
+    
+    @Published var board : BoardSet = BoardSet()
     
     
     //MARK: - Access
