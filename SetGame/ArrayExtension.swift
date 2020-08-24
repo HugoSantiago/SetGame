@@ -33,3 +33,15 @@ extension Array {
         }
     }
 }
+
+
+extension Array where Element:Identifiable{
+    func take12() ->[Element] {
+        var rst :[Element] = []
+        for _ in 0...12 {
+            let randomInt = Int.random(in: 0..<count)
+            rst.append(self[randomInt])
+        }
+        return rst
+    }
+}

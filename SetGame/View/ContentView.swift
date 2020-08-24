@@ -11,8 +11,14 @@ import SwiftUI
 struct ContentView: View {
     var table: setGameVM = setGameVM()
     var body: some View {
-        Grid(table.cards.chunked(into: 6)[0]) { card in
-            CardView(color: card.color, figure: card.shape, number: card.number, shading: card.shading)
+        VStack {
+            Grid(table.cards.take12()) { card in
+                CardView(color: card.color, figure: card.shape, number: card.number, shading: card.shading)
+                    .onTapGesture {
+                        self.table.selectCard(card: card)
+                }
+            }
+            
         }
     }
 }
@@ -28,32 +34,48 @@ struct CardView : View {
             RoundedRectangle( cornerRadius: 10, style: .continuous)
                 .stroke(Color.black)
                 .shadow(radius: 10)
-                .padding()
+                .padding(5)
             VStack {
                 ForEach (1..<number+1) {_ in
-                    
                     if self.figure == "Circle" {
-                        Circle()
-                            .stroke(self.color)
-                            .opacity(self.shading)
-                            .padding()
+                        if self.shading > 0 {
+                            Circle()
+                                .fill(self.color)
+                                .opacity(self.shading)
+                                .padding(4)
+                        } else {
+                            Circle()
+                                .stroke(self.color)
+                                .padding(4)
+                        }
                     }
                     if self.figure == "Capsule" {
-                        Capsule()
-                            .stroke(self.color, lineWidth: 2)
-                            .opacity(self.shading)
-                            .padding()
+                        if self.shading > 0 {
+                            Capsule()
+                                .fill(self.color)
+                                .opacity(self.shading)
+                                .padding(4)
+                        } else {
+                            Capsule()
+                                .stroke(self.color)
+                                .padding(4)
+                        }
                     }
                     if self.figure == "Rectangle" {
-                        Rectangle()
-                            .stroke(self.color, lineWidth: 2)
-                            .opacity(self.shading)
-                            .padding()
+                        if self.shading > 0 {
+                            Rectangle()
+                                .fill(self.color)
+                                .opacity(self.shading)
+                                .padding(4)
+                        } else {
+                            Rectangle()
+                                .stroke(self.color, lineWidth: 2)
+                                .padding(4)
+                        }
                     }
                 }
+                .frame(width: 35, height: 35)
             }
-            .padding()
-            
         }
     }
 }

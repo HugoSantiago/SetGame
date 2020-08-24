@@ -33,6 +33,11 @@ struct BoardSet {
         cards.shuffle()
     }
     
+    func selectCard(card: Card) {
+        print(card)
+    }
+    
+    
     struct Card : Identifiable, Hashable{
         var id = UUID()
         var number : Int

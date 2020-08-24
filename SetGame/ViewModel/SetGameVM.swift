@@ -12,6 +12,7 @@ import  SwiftUI
 struct setGameVM {
     private var board : BoardSet = BoardSet()
     
+    
     //MARK: - Access
     
     var cards: [BoardSet.Card] {
@@ -19,4 +20,8 @@ struct setGameVM {
     }
 
     //MARK: - Intents
+    
+    func selectCard(card: BoardSet.Card){
+        board.selectCard(card:card)
+    }
 }
