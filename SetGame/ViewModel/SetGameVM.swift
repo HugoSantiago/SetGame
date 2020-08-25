@@ -24,5 +24,6 @@ class setGameVM: ObservableObject {
     
     func selectCard(card: BoardSet.Card){
         board.selectCard(card:card)
+        
     }
 }
